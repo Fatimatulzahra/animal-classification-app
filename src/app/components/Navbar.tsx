@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,11 +21,14 @@ export const Navbar = () => {
         
         {/* Menu that shows/hides based on isOpen */}
         <div className={getMenuClasses()}>
-          <Link href="" className="mx-2 hover:text-gray-300">Dashboard</Link>
+          <Link href="/" className="mx-2 hover:text-gray-300">Dashboard</Link>
           <Link href="/my_image" className="mx-2 hover:text-gray-300">My Images</Link>
-          <Link href="/sign-in" className="mx-2 hover:text-gray-300">Sign in</Link>
+          {/* <Link href="/sign-in" className="mx-2 hover:text-gray-300">Sign in</Link> */}
+          <SignedIn><UserButton /></SignedIn>
+          <SignedOut><SignInButton /></SignedOut>
         </div>
         
+
         {/* Hamburger button for mobile */}
         <div className="md:hidden flex items-center">
           <button
