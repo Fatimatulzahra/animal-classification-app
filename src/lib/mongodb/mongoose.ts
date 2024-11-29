@@ -21,7 +21,7 @@ export const connect = async () => {
 
   try {
     await mongoose.connect(uri, {
-      dbName: "animal classifier app",
+      dbName: "animal-classifier-app",
     });
     console.log("MONGODB connected");
     initialized = true;
