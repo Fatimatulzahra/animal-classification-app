@@ -1,6 +1,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
+import { createOrUpdateUser, deleteUser } from '@/lib/actions/user'
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET
@@ -47,17 +48,45 @@ export async function POST(req: Request) {
 
   // Do something with payload
   // For this guide, log payload to console
-  const { id } = evt.data
-  const eventType = evt.type
+  const { id } = evt?.data
+  const eventType = evt?.type
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
   console.log('Webhook payload:', body)
 
 //   do sth once user does an action
-  if (eventType === 'user.created'){
-    console.log('User Created');
+  if (eventType === 'user.created' || eventType === 'user.updated'){
+    const {id, first_name, last_name, image_url, email_addresses, username} = evt?.data;
+    const emailAddresses = email_addresses.map((email: { email_address: string }) => ({ email: email.email_address }));
+    try{
+        await createOrUpdateUser(
+          id ?? '',
+          first_name ?? '',
+          last_name ?? '',
+          image_url ?? '',
+          emailAddresses,
+          username ?? ''
+        );
+        return new Response('User is created or updated', {status: 200});
+    }
+    catch(error){
+        console.log('Error creating or updating user: ', error);
+        return new Response('Error occured', {status:400});
+    }
   }
-  if (eventType === 'user.updated'){
-    console.log('User Updated');
+  if (eventType === 'user.deleted'){
+    const {id} = evt?.data;
+    if (typeof id !== 'string') {
+        console.log('Error: id is not a string');
+        return new Response('Error: id is not a string', {status: 400});
+    }
+    try{
+        await deleteUser(id);
+        return new Response('User is deleted',{status:200});
+    }
+    catch(error){
+        console.log('Error deleting user: ', error);
+        return new Response('Error occured', {status:400});
+    }
   }
 
   return new Response('Webhook received', { status: 200 })
