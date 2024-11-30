@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, X, PawPrint } from "lucide-react";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export const Navbar = () => {
@@ -10,19 +10,36 @@ export const Navbar = () => {
   // Function to dynamically return menu classes
   function getMenuClasses() {
     return isOpen
-      ? "flex absolute top-[60px] w-full bg-pink-800 p-6 gap-10 flex-col left-0"
-      : "hidden md:flex";  // Use `hidden` when menu is closed
+      ? "flex flex-col items-center gap-6 absolute top-[60px] left-0 w-full bg-gradient-to-b from-pink-800 to-pink-700 p-6 z-40"
+      : "hidden md:flex md:items-center md:gap-8";  // Use 'hidden' when menu is closed
   }
 
+  // Close the menu when screen size changes
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsOpen(false); // Automatically close the dropdown on larger screens
+      }
+    };
+
+    // Attach the event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <nav className="bg-pink-800 text-white p-4 sm:p-6 md:flex md:justify-between">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold">Animal Classifier</Link>
+    <nav className="bg-gradient-to-r from-pink-700 via-pink-800 to-pink-900 text-white shadow-lg sticky top-0 z-50">
+      <div className="container mx-auto flex px-6 py-4 justify-between items-center">
+        <Link href="/" className="flex items-center text-2xl font-bold tracking-wider hover:text-gray-300 transition">
+          <PawPrint className="h-8 w-8 inline-block" /> Animal Classifier
+        </Link>
         
         {/* Menu that shows/hides based on isOpen */}
         <div className={getMenuClasses()}>
-          <Link href="/" className="mx-2 hover:text-gray-300">Home</Link>
-          <Link href="/my_image" className="mx-2 hover:text-gray-300">My Images</Link>
+          <Link href="/" className="text-lg font-medium hover:text-gray-300 transition duration-300">Home</Link>
+          <Link href="/my_image" className="text-lg font-medium hover:text-gray-300 transition duration-300">My Images</Link>
           {/* <Link href="/sign-in" className="mx-2 hover:text-gray-300">Sign in</Link> */}
           <SignedIn><UserButton /></SignedIn>
           <SignedOut><SignInButton /></SignedOut>
@@ -32,7 +49,7 @@ export const Navbar = () => {
         {/* Hamburger button for mobile */}
         <div className="md:hidden flex items-center">
           <button
-            className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400"
+            className="md:hidden p-2 text-white rounded-md outline-none focus:ring-2 focus:ring-gray-300 transition"
             onClick={() => setIsOpen(!isOpen)} // Toggle menu open/close
           >
             {isOpen ? (
@@ -46,3 +63,4 @@ export const Navbar = () => {
     </nav>
   );
 };
+
