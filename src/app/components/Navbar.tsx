@@ -39,12 +39,24 @@ export const Navbar = () => {
         {/* Menu that shows/hides based on isOpen */}
         <div className={getMenuClasses()}>
           <Link href="/" className="text-lg font-medium hover:text-gray-300 transition duration-300">Home</Link>
-          <Link href="/my_image" className="text-lg font-medium hover:text-gray-300 transition duration-300">My Images</Link>
-          {/* <Link href="/sign-in" className="mx-2 hover:text-gray-300">Sign in</Link> */}
-          <SignedIn><UserButton /></SignedIn>
-          <SignedOut><SignInButton /></SignedOut>
+          
+          {/* Conditionally render 'My Images' link only for signed-in users */}
+          <SignedIn>
+            <Link href="/my_image" className="text-lg font-medium hover:text-gray-300 transition duration-300">
+              My Images
+            </Link>
+          </SignedIn>
+          
+          {/* Render SignInButton when the user is signed out */}
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+
+          {/* User Button for signed-in users */}
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
-        
 
         {/* Hamburger button for mobile */}
         <div className="md:hidden flex items-center">
@@ -63,4 +75,3 @@ export const Navbar = () => {
     </nav>
   );
 };
-
