@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { UploadButton } from "@/utils/uploadthing";
-import * as mobilenet from "@tensorflow-models/mobilenet";
-import "@tensorflow/tfjs"; // Ensures TensorFlow.js is loaded
+import { classifyImage } from "@/utils/tensorflow"; 
 
 export default function ImageUpload() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -14,25 +13,12 @@ export default function ImageUpload() {
   } | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const classifyImage = async (imageUrl: string) => {
+  const handleClassifyImage = async (imageUrl: string) => {
     setIsLoading(true);
 
     try {
-      // Load the MobileNet model
-      const model = await mobilenet.load();
-      console.log("Model loaded successfully");
-
-      // Load the image
-      const img = new window.Image();
-      img.crossOrigin = "anonymous"; // Allows cross-origin image loading
-      img.src = imageUrl;
-      await new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
-      }); // Wait for image to load
-
-      // Classify the image
-      const predictions = await model.classify(img);
+      // Call the classifyImage function from the utils
+      const predictions = await classifyImage(imageUrl);
       console.log("Predictions:", predictions);
 
       if (predictions && predictions[0]) {
@@ -66,7 +52,7 @@ export default function ImageUpload() {
               setImageUrl(uploadedImageUrl);
 
               // Classify the uploaded image
-              await classifyImage(uploadedImageUrl);
+              await handleClassifyImage(uploadedImageUrl);
             }
           }}
           onUploadError={(error: Error) => {
