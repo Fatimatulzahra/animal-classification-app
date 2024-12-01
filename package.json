@@ -10,13 +10,15 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.5.1",
+    "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow/tfjs": "^4.22.0",
     "@uploadthing/react": "^7.1.1",
     "lucide-react": "^0.462.0",
     "mongodb": "^6.11.0",
     "mongoose": "^8.8.3",
     "next": "15.0.3",
-    "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "svix": "^1.42.0",
     "uploadthing": "^7.3.0"
   },
