@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { wrap } from "node:module";
 
 // Define the types
 interface Image {
