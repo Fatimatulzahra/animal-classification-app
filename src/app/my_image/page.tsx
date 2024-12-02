@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { wrap } from "node:module";
 
 // Define the types
 interface Image {
@@ -62,10 +63,10 @@ const MyImagePage = () => {
 };
 
 // Styling
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
   folderContainer: {
     display: "flex",
-    flexWrap: "wrap" as "wrap", 
+    flexWrap: "wrap",
     gap: "20px",
     justifyContent: "flex-start",
     paddingTop: "20px",
@@ -73,21 +74,21 @@ const styles = {
   folder: {
     width: "300px",
     height: "300px",
-    backgroundColor: "rgba(255, 255, 255, 0.1)", 
-    border: "2px solid rgba(255, 255, 255, 0.3)", 
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    border: "2px solid rgba(255, 255, 255, 0.3)",
     borderRadius: "10px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     cursor: "pointer",
     transition: "transform 0.2s, background-color 0.3s",
-    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)", 
+    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
   },
   folderDate: {
     fontSize: "1.5rem",
     color: "black",
     fontWeight: "bold",
-    textAlign: "center" as "center",
+    textAlign: "center" as const,
   },
   folderHover: {
     backgroundColor: "rgba(255, 255, 255, 0.2)",

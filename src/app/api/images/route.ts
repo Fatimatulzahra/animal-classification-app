@@ -9,7 +9,7 @@ interface Query {
 }
 
 interface GroupedImages {
-  [key: string]: Array<any>;
+  [key: string]: Array<Image>; 
 }
 
 interface Image {
@@ -56,7 +56,7 @@ export async function GET(req: NextRequest) {
       if (!acc[date]) acc[date] = [];
       acc[date].push(image);
       return acc;
-    }, {});
+    }, {} as GroupedImages);
 
     // Return grouped images
     return NextResponse.json(groupedImages);
