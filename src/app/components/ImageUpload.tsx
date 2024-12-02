@@ -7,7 +7,7 @@ import { classifyImage } from "@/utils/tensorflow";
 import { useUser } from "@clerk/nextjs"; 
 
 export default function ImageUpload() {
-  const { user, isLoaded, isSignedIn } = useUser(); 
+  const { user, isSignedIn } = useUser(); 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [classificationResult, setClassificationResult] = useState<{
     predicted_label: string;

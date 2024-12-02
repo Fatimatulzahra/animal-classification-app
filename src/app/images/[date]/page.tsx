@@ -1,13 +1,21 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { useUser } from "@clerk/nextjs"; 
+import { useUser } from "@clerk/nextjs";
+import Image from 'next/image'; 
+
+interface Image {
+  _id: string;
+  fileUrl: string;
+  fileName: string;
+  classification: string;
+}
 
 const ImageGalleryPage = () => {
-  const { date } = useParams(); 
-  const [images, setImages] = useState([]);
-  const { user } = useUser(); 
-  const userId = user?.id; 
+  const { date } = useParams();
+  const [images, setImages] = useState<Image[]>([]); 
+  const { user } = useUser();
+  const userId = user?.id;
 
   useEffect(() => {
     if (!userId || !date) {
@@ -35,23 +43,30 @@ const ImageGalleryPage = () => {
       <h1 style={{ textAlign: "center", color: "#333", fontSize: "2rem", marginBottom: "20px" }}>Images from {date}</h1>
       {Array.isArray(images) && images.length === 0 && <div>No images found for this date.</div>}
       <div style={styles.galleryContainer}>
-        {Array.isArray(images) &&
-          images.map((image: any) => (
-            <div key={image._id} style={styles.imageCard}>
-              <img src={image.fileUrl} alt={image.fileName} style={styles.image as React.CSSProperties} />
-              <div style={styles.classification}>{image.classification || "Classified"}</div>
-            </div>
-          ))}
+        {images.map((image) => (
+          <div key={image._id} style={styles.imageCard}>
+            <Image
+              src={image.fileUrl}
+              alt={image.fileName}
+              width={300} 
+              height={300} 
+              style={styles.image as React.CSSProperties}
+            />
+            <div style={styles.classification}>{image.classification || "Classified"}</div>
+          </div>
+        ))}
       </div>
       {!Array.isArray(images) && <div>Error: Unexpected data format</div>}
     </div>
   );
 };
 
-const styles = {
+import { CSSProperties } from "react";
+
+const styles: { [key: string]: CSSProperties } = {
   galleryContainer: {
     display: "flex",
-    flexWrap: "wrap" as "wrap",
+    flexWrap: "wrap",
     gap: "20px",
     justifyContent: "center",
   },
@@ -61,7 +76,7 @@ const styles = {
     borderRadius: "8px",
     overflow: "hidden",
     boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-    textAlign: "center" as "center",
+    textAlign: "center",
     backgroundColor: "#f9f9f9",
   },
   image: {

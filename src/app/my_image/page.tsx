@@ -1,12 +1,23 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs"; 
+import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
+// Define the types
+interface Image {
+  fileName: string;
+  fileUrl: string;
+  classification: string;
+}
+
+interface ImageData {
+  [date: string]: Image[];
+}
+
 const MyImagePage = () => {
-  const [imageData, setImageData] = useState<any>({});
+  const [imageData, setImageData] = useState<ImageData>({});
   const { user } = useUser();
-  const router = useRouter(); 
+  const router = useRouter();
 
   useEffect(() => {
     if (user) {

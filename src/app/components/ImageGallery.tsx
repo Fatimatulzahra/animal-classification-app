@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface ImageProps {
   images: { fileUrl: string; fileName: string }[];
@@ -9,7 +10,13 @@ const ImageGallery: React.FC<ImageProps> = ({ images }) => {
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
       {images.map((image, index) => (
         <div key={index} style={{ border: '1px solid #ddd', padding: '10px' }}>
-          <img src={image.fileUrl} alt={image.fileName} style={{ maxWidth: '200px', maxHeight: '200px' }} />
+          <Image
+            src={image.fileUrl}
+            alt={image.fileName}
+            width={300}  
+            height={300} 
+            style={{ objectFit: 'cover' }} // Ensures images are resized properly
+          />
           <div>{image.fileName}</div>
         </div>
       ))}

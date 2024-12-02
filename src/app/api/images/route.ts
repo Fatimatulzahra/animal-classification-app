@@ -2,6 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connect } from '@/lib/mongodb/mongoose';
 import Upload from '@/lib/models/upload.model';
 
+// Define types
+interface Query {
+  userId: string;
+  uploadedAt?: { $gte: Date; $lt: Date };
+}
+
+interface GroupedImages {
+  [key: string]: Array<any>;
+}
+
+interface Image {
+  fileUrl: string;
+  classification: string;
+  uploadedAt: Date;
+  userId: string;
+}
+
 // API route to fetch images grouped by date or for a specific date
 export async function GET(req: NextRequest) {
   try {
@@ -16,9 +33,8 @@ export async function GET(req: NextRequest) {
     await connect(); // Connect to MongoDB
 
     // Query to fetch images for the user
-    let query: any = { userId };
+    const query: Query = { userId };
 
-    
     if (date) {
       const startDate = new Date(date);
       const endDate = new Date(date);
@@ -35,9 +51,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ images });
     }
 
-    
-    const groupedImages = images.reduce((acc: any, image: any) => {
-      const date = new Date(image.uploadedAt).toISOString().split('T')[0]; 
+    const groupedImages: GroupedImages = images.reduce((acc: GroupedImages, image: Image) => {
+      const date = new Date(image.uploadedAt).toISOString().split('T')[0];
       if (!acc[date]) acc[date] = [];
       acc[date].push(image);
       return acc;
@@ -53,6 +68,7 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
 // POST route to save image and classification data
 export async function POST(req: NextRequest) {
   try {
