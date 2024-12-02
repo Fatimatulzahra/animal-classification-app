@@ -1,22 +1,11 @@
 import mongoose from "mongoose";
 
 const uploadSchema = new mongoose.Schema({
-  userId: {
-    type: String, // Clerk user ID
-    required: true,
-  },
-  fileName: {
-    type: String, // Original file name
-    required: true,
-  },
-  fileUrl: {
-    type: String, // File's public URL (from UploadThing)
-    required: true,
-  },
-  uploadedAt: {
-    type: Date, // Timestamp of upload
-    default: Date.now,
-  },
+  fileUrl: { type: String, required: true },
+  classification: { type: String, required: true }, 
+  confidence: { type: Number, required: true }, 
+  uploadedAt: { type: Date, required: true },
+  userId: { type: String, required: true },
 });
 
 const Upload = mongoose.models.Upload || mongoose.model('Upload', uploadSchema);

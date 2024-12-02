@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { UploadButton } from "@/utils/uploadthing";
-import { classifyImage } from "@/utils/tensorflow"; 
+import { classifyImage } from "@/utils/tensorflow";
+import { useUser } from "@clerk/nextjs"; 
 
 export default function ImageUpload() {
+  const { user, isLoaded, isSignedIn } = useUser(); 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [classificationResult, setClassificationResult] = useState<{
     predicted_label: string;
@@ -13,25 +15,58 @@ export default function ImageUpload() {
   } | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  // Function to classify image using TensorFlow model
   const handleClassifyImage = async (imageUrl: string) => {
     setIsLoading(true);
 
     try {
-      // Call the classifyImage function from the utils
       const predictions = await classifyImage(imageUrl);
-      console.log("Predictions:", predictions);
 
       if (predictions && predictions[0]) {
-        setClassificationResult({
+        const result = {
           predicted_label: predictions[0].className,
           confidence: predictions[0].probability,
-        });
+        };
+        setClassificationResult(result);
+
+        // Save the image and classification result
+        await saveClassificationResult(imageUrl, result);
       }
     } catch (error) {
-      console.error("Error classifying image:", error);
       alert(`Error: ${(error as Error).message}`);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const saveClassificationResult = async (
+    imageUrl: string,
+    classificationResult: { predicted_label: string; confidence: number }
+  ) => {
+    if (!isSignedIn || !user) {
+      alert("Please sign in first.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/images", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          imageUrl,
+          classification: classificationResult,
+          userId: user.id, 
+        }),
+      });
+
+      const responseData = await response.json();
+
+      console.log("Classification result saved successfully", responseData);
+    } catch (error) {
+      console.error("Full error details:", error);
+      alert(`Error saving classification result: ${(error as Error).message}`);
     }
   };
 
