@@ -12,9 +12,11 @@ A web-based application for uploading and classifying animal images using machin
 Frontend:
 - Next.js
 - TypeScript
+  
 Backend:
 - MongoDB(database)
 - UploadThing for image link handling
+  
 Machine Learning:
 - TensorFlow.js with MobileNet
 
