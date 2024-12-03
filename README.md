@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Animal Classification App
+## 📜 Project Overview
+A web-based application for uploading and classifying animal images using machine learning. The platform allows users to view their past uploads and see their images organized by date, with classifications displayed for each. Built with TypeScript and Next.js for the frontend, MongoDB for the backend, and MobileNet (via TensorFlow.js) for classification.
 
-## Getting Started
+## 🚀 Features
+- Image Upload: Users can upload animal images for classification.
+- Machine Learning Model: Classifies images using MobileNet.
+- User History: Organizes uploads by date and displays classifications under each image.
+- Gallery View: View past uploads in a user-friendly gallery format.
 
-First, run the development server:
+## 🛠️ Tech Stack
+Frontend:
+- Next.js
+- TypeScript
+Backend:
+- MongoDB(database)
+- UploadThing for image link handling
+Machine Learning:
+- TensorFlow.js with MobileNet
 
-```bash
+## 📝 Setup Instructions
+1️⃣ Prerequisites
+Ensure you have the following installed:
+Node.js
+MongoDB
+
+2️⃣ Clone the Repository
+git clone https://github.com/Fatimatulzahra/animal-classification-app.git
+cd animal-classification-app
+
+3️⃣ Install Dependencies
+npm install
+
+4️⃣ Set Up Environment Variables
+Create a .env.local file in the root directory to setup your MONGODB, UPLOADTHING AND CLERK API
+
+5️⃣ Run the Project
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📊 How It Works
+- Image Upload: Users upload an image through the frontend.
+- Model Classification: MobileNet classifies the image in real time.
+- Save Results: Image and classification are saved in MongoDB, organized by upload date.
+- User History: Users can view their uploads in a gallery, grouped by date.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🤝 Acknowledgments
+- TensorFlow.js for the MobileNet model.
+- UploadThing for seamless image uploads(link for images were used in mongodb and rendered in the user's image gallery)
+- MongoDB for robust database solutions.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
