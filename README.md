@@ -21,21 +21,21 @@ Machine Learning:
 ## 📝 Setup Instructions
 1️⃣ Prerequisites
 Ensure you have the following installed:
-Node.js
-MongoDB
+- Node.js
+- MongoDB
 
 2️⃣ Clone the Repository
-git clone https://github.com/Fatimatulzahra/animal-classification-app.git
-cd animal-classification-app
+- git clone https://github.com/Fatimatulzahra/animal-classification-app.git
+- cd animal-classification-app
 
 3️⃣ Install Dependencies
-npm install
+- npm install
 
 4️⃣ Set Up Environment Variables
-Create a .env.local file in the root directory to setup your MONGODB, UPLOADTHING AND CLERK API
+- Create a .env.local file in the root directory to set up your MongoDB connection string, UploadThing, and Clerk API keys.
 
 5️⃣ Run the Project
-npm run dev
+- npm run dev
 
 
 ## 📊 How It Works
