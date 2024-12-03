@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import Image from 'next/image'; 
+import Loader from "../../components/Loader";
 
 interface Image {
   _id: string;
@@ -41,7 +42,7 @@ const ImageGalleryPage = () => {
   return (
     <div style={{ padding: "20px" }}>
       <h1 style={{ textAlign: "center", color: "#333", fontSize: "2rem", marginBottom: "20px" }}>Images from {date}</h1>
-      {Array.isArray(images) && images.length === 0 && <div>No images found for this date.</div>}
+      {Array.isArray(images) && images.length === 0 && <div><Loader /></div>}
       <div style={styles.galleryContainer}>
         {images.map((image) => (
           <div key={image._id} style={styles.imageCard}>
@@ -52,7 +53,7 @@ const ImageGalleryPage = () => {
               height={300} 
               style={styles.image as React.CSSProperties}
             />
-            <div style={styles.classification}>{image.classification || "Classified"}</div>
+            <div style={styles.classification}>{image.classification || "Unclassified"}</div>
           </div>
         ))}
       </div>
@@ -67,8 +68,8 @@ const styles: { [key: string]: CSSProperties } = {
   galleryContainer: {
     display: "flex",
     flexWrap: "wrap",
-    gap: "20px",
-    justifyContent: "center",
+    gap: "50px",
+    justifyContent: "flex-start",
   },
   imageCard: {
     width: "300px",

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { UploadButton } from "@/utils/uploadthing";
 import { classifyImage } from "@/utils/tensorflow";
 import { useUser } from "@clerk/nextjs"; 
+import Loader from "./Loader";
 
 export default function ImageUpload() {
   const { user, isSignedIn } = useUser(); 
@@ -110,7 +111,7 @@ export default function ImageUpload() {
 
         {/* Show Loading or Classification Result */}
         {isLoading ? (
-          <p className="text-blue-500 mt-4">Classifying image...</p>
+          <Loader />
         ) : null}
       </div>
 

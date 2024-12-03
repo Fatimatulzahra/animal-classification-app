@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import Loader from "../components/Loader";
 
 // Define the types
 interface Image {
@@ -32,7 +33,7 @@ const MyImagePage = () => {
   }, [user]);
 
   if (!user) {
-    return <div>Please sign in to see your images.</div>;
+    return <Loader />;
   }
 
   const hasImages = Object.keys(imageData).length > 0;
@@ -44,7 +45,7 @@ const MyImagePage = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      {!hasImages && <div style={{ textAlign: "center", padding: "20px" }}>No images yet</div>}
+      {!hasImages && <div style={{ textAlign: "center", padding: "20px" }}><Loader/></div>}
       <div style={styles.folderContainer}>
         {hasImages &&
           Object.keys(imageData).map((date) => (

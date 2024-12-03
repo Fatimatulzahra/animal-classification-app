@@ -15,7 +15,7 @@ const ImageGallery: React.FC<ImageProps> = ({ images }) => {
             alt={image.fileName}
             width={300}  
             height={300} 
-            style={{ objectFit: 'cover' }} // Ensures images are resized properly
+            style={{ objectFit: 'cover' }} 
           />
           <div>{image.fileName}</div>
         </div>
